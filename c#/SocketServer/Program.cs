@@ -19,6 +19,7 @@ public class SocketServer
         while(true)
         {
             byte[] recibir_info = new byte[100];
+            var enviar_info = new byte[100];
             int array_size = 0;
 
             array_size = conexion.Receive(recibir_info,0, recibir_info.Length, 0);
@@ -30,9 +31,9 @@ public class SocketServer
 
             var mensajeServidorParaCliente = Console.ReadLine();
 
-            var enviar_info = Encoding.Default.GetBytes(mensajeServidorParaCliente);
+            enviar_info = Encoding.Default.GetBytes(mensajeServidorParaCliente);
 
-            socket.Send(enviar_info);
+            conexion.Send(enviar_info);
         }
     }
 }

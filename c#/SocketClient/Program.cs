@@ -9,10 +9,13 @@ public class SocketClient
         var socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
         var connect = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 5000);
         socket.Connect(connect);
-        var enviar_info = new byte[100];
         var data = "";
         while(data != "Chau")
         {
+            var enviar_info = new byte[100];
+            byte[] recibir_info = new byte[100];
+            int array_size = 0;
+
             Console.WriteLine("Cliente:");
 
             data = Console.ReadLine();
@@ -21,12 +24,9 @@ public class SocketClient
 
             socket.Send(enviar_info);
 
-            byte[] recibir_info = new byte[100]; //cantidad de bytes
-            int array_size = 0;
-
-            array_size = socket.Receive(recibir_info,0, recibir_info.Length, 0); //guardamos el n° de bytes que nos envia el cliente
+            array_size = socket.Receive(recibir_info,0, recibir_info.Length, 0);
             Array.Resize(ref recibir_info, array_size);
-            var mensajeServidor = Encoding.Default.GetString(recibir_info); //lo convertimos en un string a los bytes
+            var mensajeServidor = Encoding.Default.GetString(recibir_info);
             Console.WriteLine("Servidor: {0}", mensajeServidor);
         }
     }
